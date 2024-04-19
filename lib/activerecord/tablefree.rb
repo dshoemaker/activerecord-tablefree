@@ -122,18 +122,13 @@ module ActiveRecord
         end
       end
 
-      case ActiveRecord::VERSION::MAJOR
-      when 5, 6
-        def find_by_sql(*_args)
-          case tablefree_options[:database]
-          when :pretend_success
-            []
-          when :fail_fast
-            raise NoDatabase, "Can't #find_by_sql on Tablefree class"
-          end
+      def find_by_sql(*_args)
+        case tablefree_options[:database]
+        when :pretend_success
+          []
+        when :fail_fast
+          raise NoDatabase, "Can't #find_by_sql on Tablefree class"
         end
-      else
-        raise Unsupported, 'Unsupported ActiveRecord version'
       end
 
       def transaction
